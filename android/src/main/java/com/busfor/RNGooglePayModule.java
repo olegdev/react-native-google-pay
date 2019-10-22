@@ -99,6 +99,12 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public String cardCryptogram(String cardNumber, String cardExp, String cardCvv, String publicId) {
+    CPCard card = new CPCard(cardNumber, cardDate, cardCVC);
+    return card.cardCryptogram(publicId);
+  }
+
+  @ReactMethod
   public void isReadyToPay(ReadableArray allowedCardNetworks, ReadableArray allowedCardAuthMethods, final Promise promise) {
     final Activity activity = getCurrentActivity();
     if (activity == null) {
