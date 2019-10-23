@@ -1,9 +1,15 @@
-
 package com.busfor;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
@@ -99,9 +105,12 @@ public class RNGooglePayModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public String cardCryptogram(String cardNumber, String cardExp, String cardCvv, String publicId) {
-    CPCard card = new CPCard(cardNumber, cardDate, cardCVC);
-    return card.cardCryptogram(publicId);
+  public void createCryptogram(String cardNumber, String cardExp, String cardCvv, String publicId, final Promise promise)  throws UnsupportedEncodingException,
+            NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException,
+            IllegalBlockSizeException, InvalidKeyException {
+    CPCard card = new CPCard(cardNumber, cardExp, cardCvv);
+    String cryptogram = card.cardCryptogram(publicId);
+    promise.resolve(cryptogram);
   }
 
   @ReactMethod
